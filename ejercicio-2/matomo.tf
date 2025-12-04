@@ -25,10 +25,6 @@ resource "kubernetes_deployment" "matomo" {
           port {
             container_port = 80
           }
-          volume_mount {
-            name       = "matomo-storage"
-            mount_path = "/var/www/html"
-          }
           env {
             name  = "ALLOW_EMPTY_PASSWORD"
             value = "yes"
@@ -49,12 +45,17 @@ resource "kubernetes_deployment" "matomo" {
             name  = "MATOMO_DATABASE_HOST"
             value = "service-mariadb"
           }
+          volume_mount {
+            name       = "matomo-storage"
+            mount_path = "/var/www/html"
+          }
         }
         volume {
           name = "matomo-storage"
           persistent_volume_claim {
             claim_name = "matomo-pvc"
           }
+          //empty_dir {}
         }
       }
     }

@@ -1,0 +1,14 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30081
+    hostPort: 8081
+    protocol: TCP
+
+  #extraMounts:
+  #- hostPath: /mnt/c/Users/migue/Desktop/UNI/VS/Practicas/Entregable2/ejercicio-2/mariadb
+  #  containerPath: /var/lib/mysql
+  #- hostPath: /mnt/c/Users/migue/Desktop/UNI/VS/Practicas/Entregable2/ejercicio-2/matomo
+  #  containerPath: /var/www/html

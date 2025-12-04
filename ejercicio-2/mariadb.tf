@@ -25,10 +25,6 @@ resource "kubernetes_deployment" "mariadb" {
           port {
             container_port = 3306
           }
-          volume_mounts {
-            name       = "mariadb-storage"
-            mount_path = "/var/lib/mysql"
-          }
           env {
             name  = "MARIADB_USER"
             value = var.matomo_user
@@ -45,12 +41,17 @@ resource "kubernetes_deployment" "mariadb" {
             name  = "MARIADB_ROOT_PASSWORD"
             value = var.matomo_root_password
           }
+          volume_mount {
+            name       = "mariadb-storage"
+            mount_path = "/var/lib/mysql"
+          }
         }
-        volumes {
+        volume {
           name = "mariadb-storage"
           persistent_volume_claim {
             claim_name = "mariadb-pvc"
           }
+          //empty_dir {}
         }
       }
     }
