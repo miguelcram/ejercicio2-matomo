@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      initContainers:
+      - name: init-sites
+        image: drupal:10
+        command:
+          - sh
+          - -c
+          - >
+            if [ -z "$(ls -A /data/sites 2>/dev/null)" ]; then
+              cp -R /var/www/html/sites/* /data/sites/ &&
+              chown -R www-data:www-data /data/sites;
+            else
+              chown -R www-data:www-data /data/sites;
+            fi
+        volumeMounts:
+          - name: drupal-sites
+            mountPath: /data/sites
+      containers:
+        - name: drupal
+          image: drupal:10
+          ports:
+            - containerPort: 80
+          env:
+            - name: DRUPAL_DB_HOST
+              value: mysql
+            - name: DRUPAL_DB_NAME
+              value: drupal
+            - name: DRUPAL_DB_USER
+              value: drupal-user
+            - name: DRUPAL_DB_PASSWORD
+              value: drupalpass
+          volumeMounts:
+            - name: drupal-sites
+              mountPath: /var/www/html/sites
+      volumes:
+      - name: drupal-sites
+        persistentVolumeClaim:
+          claimName: drupal-pvc

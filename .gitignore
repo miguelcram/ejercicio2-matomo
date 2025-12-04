@@ -1,0 +1,31 @@
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+crash.log
+terraform.tfvars
+
+# Kubernetes generated files (if any)
+kubeconfig
+*.yaml.tmp
+
+# Node kind local data (kept outside repo)
+data/
+
+# Docker
+docker/*.log
+docker/*.tmp
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Other
+entregable-kubernetes-scv.pdf
+info.txt
+
+# General extras
+*.log
+.github/*.log
