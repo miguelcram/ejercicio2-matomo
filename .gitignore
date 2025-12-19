@@ -23,6 +23,8 @@ Thumbs.db
 .vscode/
 
 # Other
+ejercicio-2/mariadb/
+ejercicio-2/matomo/
 entregable-kubernetes-scv.pdf
 info.txt
 
